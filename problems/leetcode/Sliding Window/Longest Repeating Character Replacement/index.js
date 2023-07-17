@@ -3,76 +3,23 @@
  * @param {number} k
  * @return {number}
  */
-
-// two pointers ga bisa karena kita ga bisa make sure bahwa yang diubah itu yang di kiri atau di kanan.
-// kalo di kanan ini bisa kayak metode kemaren, tapi kalo konteksnya berubah di kiri, maka harus ada kondisi di kiri juga.
 var characterReplacement = function (s, k) {
+  let count = {};
+
   let leftPointer = 0;
-  let rightPointer = 1;
-  let max = 0;
-  while (leftPointer > 0 && rightPointer < s.length) {
-    let leftCharacter = s[leftPointer];
-    let rightCharacter = s[rightPointer];
-    if (leftCharacter === rightCharacter) {
-      rightPointer++;
-      max = Math.max(max, count);
-    } else {
-      let count = getMaxLengthWithReplacementRight(
-        s,
-        k,
-        leftPointer,
-        rightPointer
-      );
-      max = Math.max(max, count);
-      leftPointer = rightPointer++;
+  let ans = 0;
+  let largestCount = 0;
+  for (let rightPointer in s) {
+    count[s[rightPointer]] = (count[s[rightPointer]] || 0) + 1;
+    largestCount = Math.max(largestCount, count[s[rightPointer]]);
+
+    if (rightPointer - leftPointer + 1 - largestCount > k) {
+      count[s[leftPointer]]--;
+      leftPointer++;
     }
+
+    ans = Math.max(ans, rightPointer - leftPointer + 1);
   }
 
-  return max;
+  return ans;
 };
-
-var getMaxLengthWithReplacementRight = function (
-  s,
-  k,
-  leftPointer,
-  rightPointer
-) {
-  while (rightPointer < s.length) {
-    let leftCharacter = s[leftPointer];
-    let rightCharacter = s[rightPointer];
-    if (leftCharacter === rightCharacter) {
-      rightPointer++;
-    } else {
-      if (k > 0) {
-        rightPointer++;
-        k--;
-      } else break;
-    }
-  }
-
-  return rightPointer - leftPointer;
-};
-
-var getMaxLengthWithReplacementLeft = function (
-  s,
-  k,
-  leftPointer,
-  rightPointer
-) {
-  while (leftPointer > 0) {
-    let leftCharacter = s[leftPointer];
-    let rightCharacter = s[rightPointer];
-    if (leftCharacter === rightCharacter) {
-      leftCharacter--;
-    } else {
-      if (k > 0) {
-        leftPointer--;
-        k--;
-      } else break;
-    }
-  }
-
-  return rightPointer - leftPointer;
-};
-
-console.log(characterReplacement("ABBB", 2));
