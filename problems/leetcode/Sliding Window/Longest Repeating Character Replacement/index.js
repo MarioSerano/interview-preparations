@@ -3,6 +3,9 @@
  * @param {number} k
  * @return {number}
  */
+
+// two pointers ga bisa karena kita ga bisa make sure bahwa yang diubah itu yang di kiri atau di kanan.
+// kalo di kanan ini bisa kayak metode kemaren, tapi kalo konteksnya berubah di kiri, maka harus ada kondisi di kiri juga.
 var characterReplacement = function (s, k) {
   let leftPointer = 0;
   let rightPointer = 1;
