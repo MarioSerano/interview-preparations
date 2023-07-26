@@ -14,7 +14,7 @@ var minEatingSpeed = function (piles, h) {
     high = max;
   let res = high;
   while (low <= high) {
-    // why <=?
+    // binary search breaks when low > high
     k = low + Math.floor((high - low) / 2);
     currH = 0;
 
@@ -23,7 +23,8 @@ var minEatingSpeed = function (piles, h) {
     }
 
     if (currH <= h) {
-      res = Math.min(res, k); // why this?
+      // make sure that every element that is valid, in this condition, is the one being taken account
+      res = Math.min(res, k);
       high = k - 1;
     } else {
       low = k + 1;
